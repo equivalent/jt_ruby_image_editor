@@ -20,7 +20,7 @@ while(user_input = gets) do
     when ""
     when 'I' 
       # I M N. Create a new M x N image with all pixels colured white (O)
-      print editor_klass.new(arguments)
+      editor_klass.new(arguments[0], arguments[1])
     when 'C'
       #C. Clears the table, stetting all pixels to white (O)
     when 'I'
