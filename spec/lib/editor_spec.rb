@@ -1,4 +1,13 @@
 require './spec/spec_helper'
+
+def check_white(editor_image)
+  editor_image.each do |image_row|
+    image_row.each do |image_coll|
+      image_coll.should == editor.default_color
+    end
+  end
+end
+
 describe Editor do
   let(:editor){ Editor.new(7, 11) }
 
@@ -38,11 +47,7 @@ describe Editor do
     end
 
     it 'should panit pixels with default color' do
-      editor.image.each do |image_row|
-        image_row.each do |image_coll|
-          image_coll.should be editor.deffault_collor
-        end
-      end
+      check_white(editor.image)
     end
   end
 
@@ -58,12 +63,62 @@ describe Editor do
       editor.paint_pixel(2, 3, 'C')
       editor.instance_variable_get('@image')[3 - 1][2 - 1].should == 'C'
     end
-  end
-
-  describe 'deffault_collor instance method' do
-    it 'should be "O"' do
-      editor.send(:deffault_collor).should == 'O'
+    it 'other segments should stay default color' do
+      editor.paint_pixel(2, 3, 'C')
+      image = editor.instance_variable_get('@image')
+      image[3 - 1][2 - 1] = 'O'
+      check_white(image)
     end
   end
-  
+
+  describe 'line_vertical instance method' do
+    it "should paint specified pixels on row" do
+      editor.line_vertical(3, 2, 6, 'C')
+      image_row = editor.instance_variable_get('@image')[3-1]
+      # OCCCCCO
+
+      #painted
+      image_row[(2-1)..(6-1)].each do |column|
+        column.should == 'C'
+      end
+      #unpainted
+      image_row[(1-1)].should == editor.default_color
+      image_row[(7-1)].should == editor.default_color
+    end
+
+    it 'should set color from Color class display color' do
+    end
+  end
+
+  describe 'draw_horizontal instance method' do
+
+  end
+
+  describe 'default_color instance method' do
+    it 'should be "O"' do
+      editor.send(:default_color).should == 'O'
+    end
+  end
+
+  describe 'argument_is_number? private instance method' do
+    it 'should raise error when passing char' do 
+      lambda{editor.send(:argument_is_number?, 9, 'C')}.should raise_error("Argument \"C\" should be pixel numbers"
+)
+    end
+
+    it 'should not raise error when passing multiple arguments all numbers' do
+      lambda{editor.send(:argument_is_number?, 9, 1, 5, 10)}.should_not raise_error
+    end
+  end
+
+  describe 'argument_over_zero? private instance method' do
+    it 'should raise error when passing number lower that 1' do 
+      lambda{editor.send(:argument_over_zero?, 9, 0)}.should raise_error("Arguments should be NUMBERS greater than zero")
+    end
+
+    it 'should not raise error when passing multiple arguments all numbers' do
+      lambda{editor.send(:argument_over_zero?, 9, 1, 5, 10)}.should_not raise_error
+    end
+  end
+
 end
