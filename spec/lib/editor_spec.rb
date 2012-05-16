@@ -54,12 +54,14 @@ describe Editor do
   end
 
   describe 'paint_pixel instance method' do
-    it 'should accept horizontal_position, vertical_position, and color as argument'
-    it 'should paint one pixel at position with color'
+    it 'should paint one pixel at position with color' do
+      editor.paint_pixel(2, 3, 'C')
+      editor.instance_variable_get('@image')[3 - 1][2 - 1].should == 'C'
+    end
   end
 
   describe 'deffault_collor instance method' do
-    it 'should be O' do
+    it 'should be "O"' do
       editor.send(:deffault_collor).should == 'O'
     end
   end

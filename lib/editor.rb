@@ -26,6 +26,10 @@ class Editor
     return image
   end
 
+  def paint_pixel(horizontal, vertical, color)
+    @image[vertical - 1][horizontal - 1] = Color.new(color).display_color
+  end
+
   def deffault_collor
     color_klass.white
   end

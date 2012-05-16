@@ -18,13 +18,16 @@ while(user_input = gets) do
   command, arguments = parse_input(user_input)
   case command
     when ""
+      #do nothing
     when 'I' 
       # I M N. Create a new M x N image with all pixels colured white (O)
-      editor_klass.new(arguments[0], arguments[1])
+      @editor = editor_klass.new(arguments[0], arguments[1])
     when 'C'
       #C. Clears the table, stetting all pixels to white (O)
+      @editor.clear
     when 'I'
       #L X Y C. Colours the pixel (X,Y) with colour C.
+      @editor.paint_pixel(arguments[0], arguments[1], arguments[2])
     when 'V'
      # V X Y1 Y2 C. Draw a vertical segment of colour C in column X between rows Y1 and Y2
     when 'H'

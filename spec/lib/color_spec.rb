@@ -11,6 +11,7 @@ describe Color do
       #@ todo refactor meta tests to be dynamic
     end
   end
+
   describe 'initialize' do
     context 'one char string argument' do
       it 'shold not raise error'do
@@ -33,6 +34,12 @@ describe Color do
     it 'should set @char_color  in upcase' do
       instance = Color.new('o') #downcase
       instance.instance_variable_get('@char_color').should == 'O' #upcase
+    end
+  end
+
+  def display_color
+    it 'sholud return upcased char color' do
+      Color.new('o').should == 'O'
     end
   end
 end

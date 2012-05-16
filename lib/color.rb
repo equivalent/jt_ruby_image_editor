@@ -11,6 +11,10 @@ class Color
   def initialize(char_color)
     raise "Argument should be one char" unless char_color.is_a?(String) and char_color.length == 1
     @char_color = char_color.upcase
-
   end
+
+  def display_color
+    @char_color
+  end
+
 end
