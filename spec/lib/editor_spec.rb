@@ -73,10 +73,9 @@ describe Editor do
 
   describe 'line_horizontal instance method' do
     it "should paint specified pixels on the row and keep rest" do
-      editor.line_horizontal(3, 2, 6, 'C')
+      editor.line_horizontal(2, 6, 3, 'C')
       image = editor.instance_variable_get('@image')
       image_row = image[3-1]
-      # OCCCCCO
       image.each_index do |row_index|
         unless row_index == 2
           image[row_index].each do |column|
@@ -85,7 +84,10 @@ describe Editor do
         end
       end
 
+      # OCCCCCO
+      
       #painted
+      #
       image_row[(2-1)..(6-1)].each do |column|
         column.should == 'C'
       end
@@ -94,11 +96,39 @@ describe Editor do
       image_row[(7-1)].should == editor.default_color
     end
 
-    xit 'should set color from Color class display color' do
-    end
+    xit 'should set color from Color class display color'
   end
 
   describe 'draw_vertical instance method' do
+    it "should paint specified pixels on the column and keep rest" do
+      editor.line_vertical(3, 2, 6, 'C')
+      image = editor.instance_variable_get('@image')
+      image_rows = (2-1)..(6-1)
+
+      image.each_index do |row_index|
+        if(image_rows.includes?(row_index))
+          image[row_index].each_index do |column_index|
+             column = image[row_index][column_index]
+             (column_index == (3-1)) ? column.should == 'C' : column.should == 'O'
+          end
+        else
+          image[row_index].each do |column|
+            column.should == 'C'
+          end
+        end
+      end
+
+      #painted
+      #
+      image_row[(2-1)..(6-1)].each do |column|
+        column.should == 'C'
+      end
+      #unpainted
+      image_row[(1-1)].should == editor.default_color
+      image_row[(7-1)].should == editor.default_color
+    end
+
+
 
   end
 

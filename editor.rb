@@ -31,7 +31,7 @@ while(user_input = gets) do
         @editor.paint_pixel(arguments[0].to_i, arguments[1].to_i, arguments[2])
       when 'V'
        # V X Y1 Y2 C. Draw a vertical segment of colour C in column X between rows Y1 and Y2
-        #@editor.line_vertical(arguments[0].to_i, arguments[1].to_i, arguments[2].to_i, arguments[3])
+        @editor.line_vertical(arguments[0].to_i, arguments[1].to_i, arguments[2].to_i, arguments[3])
       when 'H'
         #H X1 X2 Y C. Draw a horizontal segment of colour C in row Y between columns X1 and X2
         @editor.line_horizontal(arguments[0].to_i, arguments[1].to_i, arguments[2].to_i, arguments[3])

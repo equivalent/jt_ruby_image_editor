@@ -32,12 +32,14 @@ class Editor
     @image[vertical - 1][horizontal - 1] = Color.new(color).display_color
   end
 
-  def line_horizontal(x, y1, y2, color)
-    @image[(x-1)].each_index do |column_index|
-    paint_area = (y1-1)..(y2-1)
-      @image[(x-1)][column_index] = Color.new(color).display_color if paint_area.include?(column_index)
+  def line_horizontal(x1, x2, y, color)
+    @image[(y-1)].each_index do |column_index|
+    paint_area = (x1-1)..(x2-1)
+      @image[(y-1)][column_index] = Color.new(color).display_color if paint_area.include?(column_index)
     end
   end
+
+
 
   def show
     @image.each do |row|
