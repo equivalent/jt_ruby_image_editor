@@ -109,7 +109,10 @@ describe Editor do
       image_row[(7-1)].should == editor.default_color
     end
 
-    xit 'should set color from Color class display color'
+    it 'should set color from display_color' do
+      editor.should_receive(:display_color).with('C').once
+      editor.line_horizontal(2, 6, 3, 'C')
+    end
   end
 
   describe 'draw_vertical instance method' do

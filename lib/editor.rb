@@ -14,29 +14,30 @@ class Editor
 
   def paint_pixel(x, y, color)
     validate_pixel_position!([x], [y])
-    @image[y-1][x-1] = Color.new(color).display_color
+    @image[y-1][x-1] = display_color(color)
   end
 
   def line_horizontal(x1, x2, y, color)
+    color = display_color(color)
     validate_pixel_position!([x1, x2], [y])
     @image[(y-1)].each_index do |row_index|
-      @image[(y-1)].fill(Color.new(color).display_color,(x1-1)..(x2-1))
+      @image[(y-1)].fill(color,(x1-1)..(x2-1))
     end
   end
 
   def line_vertical(x, y1, y2, color)
+    color = display_color(color)
     validate_pixel_position!([x], [y1, y2])
     vertical_area = (y1-1)..(y2-1)
     @image.each_index do |row_index|
       next unless vertical_area.include?(row_index)
-      @image[row_index][x-1] = Color.new(color).display_color
+      @image[row_index][x-1] = color
     end
   end
 
   def fill(x, y, color)
     validate_pixel_position!([x], [y])
-    color = Color.new(color).display_color
-    paint_recursive(x-1, y-1, @image[y-1][x-1], color) 
+    paint_recursive(x-1, y-1, @image[y-1][x-1], display_color(color)) 
   end
 
   def show
@@ -52,6 +53,10 @@ private
 
   def color_klass
     Color
+  end
+
+  def display_color(color)
+   color_klass.new(color).display_color
   end
 
   ### validations
