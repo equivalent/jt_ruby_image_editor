@@ -102,34 +102,24 @@ describe Editor do
   describe 'draw_vertical instance method' do
     it "should paint specified pixels on the column and keep rest" do
       editor.line_vertical(3, 2, 6, 'C')
+      puts ''
       image = editor.instance_variable_get('@image')
       image_rows = (2-1)..(6-1)
 
       image.each_index do |row_index|
-        if(image_rows.includes?(row_index))
+        if(image_rows.include?(row_index))
           image[row_index].each_index do |column_index|
              column = image[row_index][column_index]
-             (column_index == (3-1)) ? column.should == 'C' : column.should == 'O'
+             (column_index == (3-1)) ? (column.should == 'C') : (column.should == 'O')
           end
         else
           image[row_index].each do |column|
-            column.should == 'C'
+            column.should == 'O'
           end
         end
       end
-
-      #painted
-      #
-      image_row[(2-1)..(6-1)].each do |column|
-        column.should == 'C'
-      end
-      #unpainted
-      image_row[(1-1)].should == editor.default_color
-      image_row[(7-1)].should == editor.default_color
     end
-
-
-
+    xit 'should set color from Color class display color'
   end
 
   describe 'default_color instance method' do
