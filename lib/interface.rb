@@ -11,7 +11,7 @@ class Interface
           when 'C'
             @editor.clear
           when 'L'
-            @editor.paint_pixel(*arguments[0..1].collect(&:to__i), arguments[2])
+            @editor.paint_pixel(*arguments[0..1].collect(&:to_i), arguments[2])
           when 'V'
             @editor.line_vertical(*arguments[0..2].collect(&:to_i), arguments[3])
           when 'H'
@@ -24,7 +24,9 @@ class Interface
             exit
           when 'help'
             puts "#{printf("%-12s",'I M N.')} Create a new M x N image with all pixels colured white (O)"
+
             puts "#{printf("%-12s",'C.')} Clears the table, stetting all pixels to white (O)"
+
             puts "#{printf("%-12s",'L X Y C.')} Colours the pixel (X,Y) with colour C."
             puts "#{printf("%-12s",'V X Y1 Y2 C.')} Draw a vertical segment of colour C in column X between rows Y1 and Y2"
             puts "#{printf("%-12s",'H X1 X2 Y C.')} Draw a horizontal segment of colour C in row Y between columns X1 and X2"
@@ -35,7 +37,7 @@ class Interface
             puts "Unknown command"
         end
       rescue NoMethodError
-        puts "Please initialize image first with I"
+        puts "Wrong argument or the image isn't initialized"
         puts 'For more info run command "help"'
       rescue SystemExit
         exit

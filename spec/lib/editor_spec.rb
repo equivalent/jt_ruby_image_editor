@@ -41,7 +41,7 @@ describe Editor do
 
   describe 'initialize_image instance method' do
     it 'should set @image as 2D array with values of white color' do
-      editor.initialize_image
+      editor.send(:initialize_image)
       editor.image.size.should be 11
       editor.image.first.size.should be 7
     end
@@ -102,7 +102,6 @@ describe Editor do
   describe 'draw_vertical instance method' do
     it "should paint specified pixels on the column and keep rest" do
       editor.line_vertical(3, 2, 6, 'C')
-      puts ''
       image = editor.instance_variable_get('@image')
       image_rows = (2-1)..(6-1)
 
@@ -128,24 +127,28 @@ describe Editor do
     end
   end
 
-  describe 'argument_is_number? private instance method' do
+  describe 'fill' do
+
+  end
+
+  describe 'argument_must_be_number! private instance method' do
     it 'should raise error when passing char' do 
-      lambda{editor.send(:argument_is_number?, 9, 'C')}.should raise_error("Argument \"C\" should be pixel numbers"
-)
+      lambda{editor.send(:argument_must_be_number!, 9, 'C')}.should raise_error("Argument \"C\" should be pixel numbers"
+                                                                               )
     end
 
     it 'should not raise error when passing multiple arguments all numbers' do
-      lambda{editor.send(:argument_is_number?, 9, 1, 5, 10)}.should_not raise_error
+      lambda{editor.send(:argument_must_be_number!, 9, 1, 5, 10)}.should_not raise_error
     end
   end
 
-  describe 'argument_over_zero? private instance method' do
+  describe 'argument_over_zero! private instance method' do
     it 'should raise error when passing number lower that 1' do 
-      lambda{editor.send(:argument_over_zero?, 9, 0)}.should raise_error("Arguments should be NUMBERS greater than zero")
+      lambda{editor.send(:argument_over_zero!, 9, 0)}.should raise_error("Arguments should be NUMBERS greater than zero")
     end
 
     it 'should not raise error when passing multiple arguments all numbers' do
-      lambda{editor.send(:argument_over_zero?, 9, 1, 5, 10)}.should_not raise_error
+      lambda{editor.send(:argument_over_zero!, 9, 1, 5, 10)}.should_not raise_error
     end
   end
 
