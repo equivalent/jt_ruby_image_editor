@@ -33,9 +33,11 @@ describe Editor do
       end
     end
 
-    xit 'should call instance method initialize_image' do
+    it 'should initialize image' do
       o = Editor.new(7,11)
-      o.should_receive(:initialize_image).once
+      image = o.instance_variable_get('@image')
+      o.send(:initialize_image)
+      image.should == o.instance_variable_get('@image')
     end
   end
 
@@ -59,10 +61,16 @@ describe Editor do
   end
 
   describe 'paint_pixel instance method' do
+    it 'should call validate_pixel_position!' do
+      editor.should_receive(:validate_pixel_position!).once.with([1],[2]) 
+      editor.paint_pixel(1,2,'C')
+    end
+
     it 'should paint one pixel at position with color' do
       editor.paint_pixel(2, 3, 'C')
       editor.instance_variable_get('@image')[3 - 1][2 - 1].should == 'C'
     end
+
     it 'other segments should stay default color' do
       editor.paint_pixel(2, 3, 'C')
       image = editor.instance_variable_get('@image')
@@ -72,6 +80,11 @@ describe Editor do
   end
 
   describe 'line_horizontal instance method' do
+    it 'should call validate_pixel_position!' do
+      editor.should_receive(:validate_pixel_position!).once.with([1,2],[3]) 
+      editor.line_horizontal(1,2,3,'C')
+    end
+
     it "should paint specified pixels on the row and keep rest" do
       editor.line_horizontal(2, 6, 3, 'C')
       image = editor.instance_variable_get('@image')
@@ -100,6 +113,11 @@ describe Editor do
   end
 
   describe 'draw_vertical instance method' do
+    it 'should call validate_pixel_position!' do
+      editor.should_receive(:validate_pixel_position!).once.with([1],[2,3]) 
+      editor.line_vertical(1,2,3,'C')
+    end
+
     it "should paint specified pixels on the column and keep rest" do
       editor.line_vertical(3, 2, 6, 'C')
       image = editor.instance_variable_get('@image')
@@ -128,6 +146,10 @@ describe Editor do
   end
 
   describe 'fill' do
+    it 'should call validate_pixel_position!' do
+      editor.should_receive(:validate_pixel_position!).once.with([1],[2]) 
+      editor.fill(1,2,'C')
+    end
 
   end
 
