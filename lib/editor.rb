@@ -12,21 +12,20 @@ class Editor
     initialize_image
   end
 
-
   def paint_pixel(x, y, color)
-    validate_pixel_position!(x, y)
+    validate_pixel_position!([x], [y])
     @image[y-1][x-1] = Color.new(color).display_color
   end
 
   def line_horizontal(x1, x2, y, color)
-    validate_pixel_position!(x1, x2, y)
+    validate_pixel_position!([x1, x2], [y])
     @image[(y-1)].each_index do |row_index|
       @image[(y-1)].fill(Color.new(color).display_color,(x1-1)..(x2-1))
     end
   end
 
   def line_vertical(x, y1, y2, color)
-    validate_pixel_position!(x, y1, y2)
+    validate_pixel_position!([x], [y1, y2])
     vertical_area = (y1-1)..(y2-1)
     @image.each_index do |row_index|
       next unless vertical_area.include?(row_index)
@@ -35,7 +34,7 @@ class Editor
   end
 
   def fill(x, y, color)
-    validate_pixel_position!(x, y)
+    validate_pixel_position!([x], [y])
     color = Color.new(color).display_color
     paint_recursive(x-1, y-1, @image[y-1][x-1], color) 
   end
@@ -61,10 +60,10 @@ private
     argument_over_zero!(*args)
   end
 
-  def validate_pixel_position!(*args)
-    validate_pixel_scale!(*args)
-    args.select!{|a| (a.to_i > @height) || (a.to_i > @width)}
-    raise "Arguments must be in image range height:\"#{@height}\" width:\"#{@width}\"" if args.any?
+  def validate_pixel_position!(x_array, y_array)
+    arguments=[x_array,y_array].flatten
+    validate_pixel_scale!(*arguments)
+    raise "Arguments must be in image range height:\"#{@height}\" width:\"#{@width}\"" if x_array.select{|a| a.to_i > @width}.any? || y_array.select{|a| a.to_i > @height}.any?
   end
 
   def argument_must_be_number!(*args)

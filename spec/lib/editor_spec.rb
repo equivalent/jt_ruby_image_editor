@@ -131,6 +131,37 @@ describe Editor do
 
   end
 
+  describe 'validate_pixel_position! private instance method' do
+    it 'should call validate_pixel_scale' do
+      editor.should_receive(:validate_pixel_scale!).once.with(1,2,3) 
+      editor.send(:validate_pixel_position!, [1,2],[3])
+    end
+
+    it 'should raise error when vertical position is out of range' do
+      lambda{editor.send(:validate_pixel_position!, [1],[20])}.should raise_error(/in image range/)
+    end
+
+    it 'should raise error when horizontal is out of range' do
+      lambda{editor.send(:validate_pixel_position!, [100],[2])}.should raise_error(/in image range/)
+    end
+
+    it 'should raise error when both horizontal and vertical is out of range' do
+      lambda{editor.send(:validate_pixel_position!, [100],[200])}.should raise_error(/in image range/)
+    end
+
+    it 'should not raise error when horizontal and vertical is in the range' do
+      lambda{editor.send(:validate_pixel_position!, [1],[2])}.should_not raise_error
+    end
+  end
+
+  describe 'validate_pixel_scale! private instance method' do
+    it 'should call argument_must_be_number and argument_over_zero!' do
+      editor.should_receive(:argument_must_be_number!).once.with(1,2,3) 
+      editor.should_receive(:argument_over_zero!).once.with(1,2,3) 
+      editor.send(:validate_pixel_scale!, 1,2,3)
+    end
+  end
+
   describe 'argument_must_be_number! private instance method' do
     it 'should raise error when passing char' do 
       lambda{editor.send(:argument_must_be_number!, 9, 'C')}.should raise_error("Argument \"C\" should be pixel numbers"
